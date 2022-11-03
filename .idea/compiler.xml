@@ -4,6 +4,8 @@
     <bytecodeTargetLevel target="17">
       <module name="gabojago.app.main" target="11" />
       <module name="gabojago.app.test" target="11" />
+      <module name="TestGabojaGo.app.main" target="11" />
+      <module name="TestGabojaGo.app.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
