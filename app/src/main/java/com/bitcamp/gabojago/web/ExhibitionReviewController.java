@@ -7,11 +7,9 @@ import com.bitcamp.gabojago.vo.ExhibitionReview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller // 주소 전달
@@ -26,6 +24,36 @@ ExhibitionReviewService exhibitionReviewService;
   public List<ExhibitionReview> exhibitionReviewList(@PathVariable("exno") int exno) throws Exception{
     return exhibitionReviewService.exhibitionReviewList(exno);
   }
+
+  @PostMapping("add")
+  public String exhibitionReviewInsert(ExhibitionReview exhibitionReview,
+      HttpSession session) throws Exception {
+
+    exhibitionReviewService.exhibitionReviewInsert(exhibitionReview);
+    return "redirect:../exhibition/detail?exno="+exhibitionReview.getExno();
+  }
+
+  @GetMapping("delete")
+  public String exhibitionReviewDelete(int rvno, HttpSession session, ExhibitionReview exhibitionReview) throws Exception {
+    //  checkOwner(no, session);
+    if(!exhibitionReviewService.exhibitionReviewDelete(rvno)) {
+      throw new Exception("리뷰를 삭제 할 수 없습니다.");
+    }
+
+    return "redirect:../exhibition/exhibitionlist";
+  }
+
+  @PostMapping("update")
+  public String update(ExhibitionReview exhibitionReview, HttpSession session) throws Exception{
+
+//  checkOwner(board.getNo(), session);
+
+    if(!exhibitionReviewService.exhibitionReviewUpdate(exhibitionReview)){
+      throw new Exception("리뷰를 변경 할 수 없습니다!");
+    }
+    return "redirect:../exhibition/exhibitionlist";
+  }
+
 
 
 

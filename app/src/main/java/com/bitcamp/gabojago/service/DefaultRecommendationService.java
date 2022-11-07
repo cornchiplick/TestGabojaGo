@@ -1,13 +1,10 @@
 package com.bitcamp.gabojago.service;
 
-import com.bitcamp.gabojago.dao.ExhibitionDao;
 import com.bitcamp.gabojago.dao.RecommendationDao;
-import com.bitcamp.gabojago.vo.Exhibition;
 import com.bitcamp.gabojago.vo.JangSoReview;
 import com.bitcamp.gabojago.vo.Recommendation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,10 +15,9 @@ public class DefaultRecommendationService implements RecommendationService  {
 
 
   @Override
-  public void add(Recommendation recommendation) throws Exception {
-    System.out.println("등록 실패 실패");
+  public void recommendationAdd(Recommendation recommendation) throws Exception {
     // 1) 게시글 등록
-    if (recommendationDao.jangSoReviewAdd(recommendation) == 0) {
+    if (recommendationDao.recommendationAdd(recommendation) == 0) {
       throw new Exception("게시글 등록 실패!");
     }
 
@@ -34,8 +30,18 @@ public class DefaultRecommendationService implements RecommendationService  {
   }
 
   @Override
+  public Recommendation getRecommendation(int recono) throws Exception {
+    return recommendationDao.getRecommendation(recono);
+  }
+
+  @Override
   public List<Recommendation> recommendationList() throws Exception {
     return recommendationDao.recommendationList();
+  }
+
+  @Override
+  public boolean disableRecommend(int recono) {
+    return false;
   }
 
 //  @Override

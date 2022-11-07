@@ -13,6 +13,7 @@ import com.bitcamp.gabojago.vo.Member;
 import com.bitcamp.gabojago.vo.Recommendation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,10 +45,23 @@ public class RecommendationController {
   public void form() throws Exception {
   }
 
-  @PostMapping("jangSoReviewAdd")
+  @Transactional
+  @PostMapping("recommendationAdd")
   public String add(
-          JangSoReview jangSoReview, Recommendation recommendation) throws Exception {
-    recommendationService.add(recommendation);
+          JangSoReview jangSoReview, Recommendation recommendation, Model model) throws Exception {
+    recommendationService.recommendationAdd(recommendation);
+    jangSoReviewService.jangSoReviewAdd(jangSoReview);
+    return "redirect:recommendationList";
+  }
+
+
+  // 민구작성메서드
+  @GetMapping("disableRecommend")
+  public String disableRecommend(int recono) throws Exception {
+    if (!recommendationService.disableRecommend(recono)) {
+      throw new Exception("코스추천글 삭제 실패");
+    }
+
     return "redirect:recommendationList";
   }
 
@@ -98,6 +112,7 @@ public class RecommendationController {
   @GetMapping("jangSoReviewList")
   public void jangSoReviewList(int recono, Model model) throws Exception {
     model.addAttribute("jangSoReviews", jangSoReviewService.jangSoReviewList(recono));
+    model.addAttribute("recommendation", recommendationService.getRecommendation(recono));
 //    model.addAttribute("jangSos", jangSoReviewService.jangSo(recono));
   }
 

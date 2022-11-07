@@ -10,15 +10,17 @@ import java.util.List;
 
 public interface RecommendationService {
 
-  void add(Recommendation recommendation) throws Exception;
+  void recommendationAdd(Recommendation recommendation) throws Exception;
 
   boolean update(Recommendation recommendation) throws Exception;
 
-  //Recommendation get(int no) throws Exception;
+  Recommendation getRecommendation(int recono) throws Exception;
 
   //boolean delete(int no) throws Exception;
 
   List<Recommendation> recommendationList() throws Exception;
+
+  boolean disableRecommend(int recono);
 
   //AttachedFile getAttachedFile(int fileNo) throws Exception;
 
